@@ -27,7 +27,7 @@
 - `"RECEIVING_EMAIL_PIN"`: 上述邮箱对应的 PIN 码。
   - **说明**: 用于程序自动登录临时邮箱并读取验证码邮件。
 
-- `"EMAIL_DOMAIN"`: 用于生成随机注册邮箱的域名。
+- `"EMAIL_DOMAIN"`: 用于生成随机注册邮箱的域名(yourdomain.com)。
   - **说明**: 程序会使用此域名生成随机邮箱（如 `random123@yourdomain.com`）进行注册。请使用您自己购买的域名。
   - **注意**: 二级域名（如 `sub.yourdomain.com`）可能被 Cursor 禁止注册。
 
