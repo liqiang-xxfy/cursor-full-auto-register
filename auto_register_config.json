@@ -1,0 +1,63 @@
+// auto_register_config.json
+// 自动注册原理：使用你购买的域名随机生成邮箱填表 → Cursor 发送验证码 → Cloudflare收到验证码邮件全部转发到指定mailto.plus临时邮箱 → 通过PIN码读取邮件内容并自动完成输入验证码 → 保存账户信息到本地
+
+{
+    //********************************
+    //*** 以下三项必须填写 (必填项) ***
+    //********************************
+
+    // 用于接收验证码的邮箱地址。程序会自动轮询此邮箱以获取验证码。例如："xxxxxxxx@mailto.plus"。目前仅支持mailto.plus，请前往 https://tempmail.plus 获取临时邮箱和PIN码。
+    "RECEIVING_EMAIL": "",
+
+    // 上述邮箱对应的PIN码，用于程序自动读取邮件。例如："xxxxxxxxx"。请前往 https://tempmail.plus 获取临时邮箱和PIN码。
+    "RECEIVING_EMAIL_PIN": "",
+
+    // 用于生成随机注册邮箱的域名。例如："xxx.xx"，程序会生成类似 "abcde12345@xxx.xx" 的邮箱进行注册。注意二级域名邮箱通常会被cursor禁止注册。
+    // 请使用自己购买的域名，通过cloudflare邮箱转发服务到mailto.plus临时邮箱。配置教程：https://www.bilibili.com/opus/951275934028136469
+    "EMAIL_DOMAIN": "",
+
+    //********************************
+    //*** 以下配置通常无需修改 ***
+    //********************************
+
+    // --- 运行与流程控制 ---
+
+    // 默认单次注册账户个数。
+    "LOOP_COUNT": 1,
+
+    // 在交互模式下，允许用户输入的单次最大注册账户个数。
+    "MAX_LOOP_COUNT": 5,
+
+    // 是否以无头模式运行浏览器。
+    // true: 不显示浏览器界面，在后台运行。
+    // false: 显示浏览器界面，方便观察和调试。
+    // 注意：处理复杂的Cloudflare验证时，有头模式(false)可能更稳定。
+    // 注意：不要修改此项，否则无法通过 Cloudflare Turnstile 人机检测。
+    "HEADLESS": false,
+
+    // --- 超时与等待时间 (单位: 秒) ---
+
+    // 长时间等待的超时阈值，例如等待页面加载或关键元素出现。(单位: 秒)
+    "LONG_WAIT": 30,
+
+    // 短暂等待的间隔时间，用于等待页面加载、元素出现等。(单位: 秒)
+    "SHORT_WAIT": 1.1,
+
+    // 轮询操作的间隔时间。较小的值会使轮询更频繁。(单位: 秒)
+    "POLL_INTERVAL": 1.1,
+
+    // --- 文件与路径配置 ---
+
+    // 保存成功获取到Token的完整账户信息的文件名。
+    "ACCOUNT_FILE": "cursor_accounts.json",
+
+    // 保存未成功获取到Access/Refresh Token的账户信息的文件名。
+    "NO_TOKEN_ACCOUNT_FILE": "cursor_accounts_no_token.json",
+
+    // 用于存放浏览器用户配置文件的目录名。
+    // 程序每次运行时会自动清理并重建此目录，以确保环境纯净。
+    "PROFILE_DIR_NAME": "chrome_profile_for_cursor_login",
+
+    // --- Cursor注册登录URL配置 (通常无需修改) ---
+    "BASE_LOGIN_URL": "https://www.cursor.com/cn/loginDeepControl"
+}
